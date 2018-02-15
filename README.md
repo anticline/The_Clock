@@ -1,6 +1,8 @@
 # The_Clock
 Arduino Code for a pseudo analog LED Clock
 
+## Status
+
 ###########--Work in progress--##########
 
 Simple Arduino Code to read the Time from a DS3231 RTC Device and 
