@@ -14,3 +14,5 @@ ToDo:
 
 --replace arduino nano with an esp, because of wifi and the ability to configure it remotely
  and the ability to sync time from a timeserver
+
+## Libraries
