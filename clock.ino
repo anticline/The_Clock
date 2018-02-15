@@ -1,6 +1,6 @@
 // clock.ino
 // Get Time from DS3231 Device and distribute it to a LED Matrix with two MAX7219 as Driver
-// written by Nils Becker
+// written by Anticline
 // 1/15/18
 
 #include <Wire.h>
