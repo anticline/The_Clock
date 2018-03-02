@@ -10,9 +10,9 @@ distribute it to a selfmade LED-Matrix.
 
 ToDo:
 
---add drawings for the matrix and the wiring
+- add drawings for the matrix and the wiring
 
---replace arduino nano with an esp, because of wifi and the ability to configure it remotely
+- replace arduino nano with an esp, because of wifi and the ability to configure it remotely
  and the ability to sync time from a timeserver
 
 ## Libraries
