@@ -55,10 +55,8 @@ void loop () {
     Serial.println();
   }
 
-  time_t prevTime;
 
   if (timeStatus() == timeSet) {      //check if time is synced with RTC
-    prevTime = now();
     displayTime();
   }
 
