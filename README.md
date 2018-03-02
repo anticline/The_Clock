@@ -5,7 +5,7 @@ Arduino Code for a pseudo analog LED Clock
 
 ###########--Work in progress--##########
 
-Simple Arduino Code to read the Time from a DS3231 RTC Device and 
+Simple Arduino Code to read the Time from a DS3231 RTC Device and
 distribute it to a selfmade LED-Matrix.
 
 ToDo:
@@ -17,4 +17,7 @@ ToDo:
 
 ## Libraries
 
-- Wire.h
+- Wire
+- DS3232RTC (https://github.com/JChristensen/DS3232RTC)
+- TimeLib (https://github.com/PaulStoffregen/Time)
+- LedControl (https://github.com/wayoda/LedControl)
