@@ -1,16 +1,16 @@
 // clock.ino
 // Get Time from DS3231 Device and distribute it to a LED Matrix with two MAX7219 as Driver
-// written by Nils Becker
+// written by anticline
 // 1/15/18
 
-#define DEBUG 0
+#define DEBUG 0               //prints time and parameters of setDisplay over Serial if enabled
 
 #include <Wire.h>
 #include <DS3232RTC.h>
 #include <LedControl.h>
 #include <TimeLib.h>
 
-LedControl lc = LedControl(10, 9, 8, 2);
+LedControl lc = LedControl(10, 9, 8, 2);  //initialising the two MAX7219 (DATA,CLK,LOAD,number of devices)
 
 
 void setup () {
@@ -22,12 +22,13 @@ void setup () {
   lc.setIntensity(1, 6);
   lc.clearDisplay(1);
 
-  setSyncProvider(RTC.get);   // the function to get the time from the RTC
+
+  setSyncProvider(RTC.get);     // the function to get the time from the RTC
   //setSyncInterval();          // function to set interval of setSync in sec (default:5min)
 
   if (DEBUG){
     Serial.begin(9600);
-  while (!Serial) ; // wait until Arduino Serial Monitor opens
+  while (!Serial) ;             // wait until Arduino Serial Monitor opens
   if(timeStatus()!= timeSet) 
      Serial.println("Unable to sync with the RTC");
   else
@@ -52,21 +53,23 @@ void loop () {
     Serial.print(':');
     Serial.print(second(), DEC);
     Serial.println();
-  
   }
 
-  if (timeStatus() == timeSet) {
+  time_t prevTime;
+
+  if (timeStatus() == timeSet) {      //check if time is synced with RTC
+    prevTime = now();
     displayTime();
-    }
+  }
 
   else {
-    blinkInnerRing();
+    blinkInnerRing();                 //if not let the inner ring blink to indicate failure
     }
 
   delay(1000);
 }
 
-void blinkInnerRing() {
+void blinkInnerRing() {               //function to let the inner ring blink
 
   for (int i = 0; i < 2; i++) {
     for (int z = 0; z < 6; z++) {
@@ -78,10 +81,9 @@ void blinkInnerRing() {
   lc.clearDisplay(0);
   lc.clearDisplay(1);
   delay(500);
-
 }
 
-void displayTime(){
+void displayTime(){                   
   
   //###############Green Ring###############
 
@@ -114,7 +116,7 @@ void displayTime(){
     }
   
 
-  //###############Reset Hours when Controller cahnges###############
+  //###############Reset Hours when Controller changes###############
 
   if (hour() == 6 || hour() == 18)
     lc.setLed(0, 5, 7, false);
@@ -183,12 +185,9 @@ void displayTime(){
   }
 
   if (DEBUG){
-  
     Serial.println(c);
     Serial.println(r);
     Serial.println(m);
-
   }
-  
 }
 
