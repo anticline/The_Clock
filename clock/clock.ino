@@ -55,6 +55,7 @@ void loop () {
     Serial.println();
   }
 
+<<<<<<< HEAD
   int prevMinute;
 
   if (timeStatus() == timeSet) {      //check if time is synced with RTC
@@ -62,6 +63,11 @@ void loop () {
       prevMinute = minute();
       displayTime();
     }
+=======
+
+  if (timeStatus() == timeSet) {      //check if time is synced with RTC
+    displayTime();
+>>>>>>> fcaa676742b93b3f179a55cffdd06ce6fa00d6d7
   }
 
   else {
