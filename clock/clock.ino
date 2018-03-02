@@ -12,6 +12,7 @@
 
 LedControl lc = LedControl(10, 9, 8, 2);  //initialising the two MAX7219 (DATA,CLK,LOAD,number of devices)
 
+int prevMinute;
 
 void setup () {
 
@@ -24,10 +25,10 @@ void setup () {
 
 
   setSyncProvider(RTC.get);     // the function to get the time from the RTC
-  //setSyncInterval();          // function to set interval of setSync in sec (default:5min)
+  setSyncInterval(5*60);          // function to set interval in secs of setSync in sec (default:5min)
 
   if (DEBUG){
-    Serial.begin(9600);
+    Serial.begin(57600);
   while (!Serial) ;             // wait until Arduino Serial Monitor opens
   if(timeStatus()!= timeSet)
      Serial.println("Unable to sync with the RTC");
@@ -56,7 +57,6 @@ void loop () {
   }
 
 
-  int prevMinute;
 
   if (timeStatus() == timeSet) {      //check if time is synced with RTC
     if (prevMinute != minute()) {       //only update display if minute changed
@@ -70,6 +70,17 @@ void loop () {
     }
 
   delay(1000);
+}
+
+void resetMinutes(){
+
+  for (int c = 0;c <2; c++){
+    for (int r = 0;r < 6;r++){
+      for (int m = 1;m < 6;m++ ){
+      lc.setLed(c,r,m,false);
+      }
+    }
+  }
 }
 
 void blinkInnerRing() {               //function to let the inner ring blink
@@ -153,6 +164,12 @@ void displayTime(){
   else
     r = (minute() - 30) / 5;
 
+    //###############Reset row when row changes###############
+
+    if (minute() % 5 == 0) {
+      resetMinutes();
+    }
+
   //###############Get Seg and set###############
 
   if (minute() % 10 < 5) {
@@ -167,25 +184,6 @@ void displayTime(){
     }
   }
 
-  //###############Reset row before###############
-
-  if (minute() % 5 == 0 && minute() != 30 && minute() != 0) {
-    for (x = 1; x < 6; x++) {
-      lc.setLed(c, r - 1, x, false);
-    }
-  }
-
-  if (minute() == 30) {
-    for (x = 1; x < 6; x++) {
-      lc.setLed(c - 1, r + 5, x, false);
-    }
-  }
-
-  if (minute() == 0) {
-    for (x = 1; x < 6; x++) {
-      lc.setLed(c + 1, r + 5, x, false);
-    }
-  }
 
   if (DEBUG){
     Serial.println(c);
