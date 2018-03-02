@@ -29,18 +29,18 @@ void setup () {
   if (DEBUG){
     Serial.begin(9600);
   while (!Serial) ;             // wait until Arduino Serial Monitor opens
-  if(timeStatus()!= timeSet) 
+  if(timeStatus()!= timeSet)
      Serial.println("Unable to sync with the RTC");
   else
-     Serial.println("RTC has set the system time");      
-    
+     Serial.println("RTC has set the system time");
+
     }
 }
 
 void loop () {
 
   if (DEBUG){
-  
+
     Serial.print(year(), DEC);
     Serial.print('/');
     Serial.print(month(), DEC);
@@ -55,11 +55,13 @@ void loop () {
     Serial.println();
   }
 
-  time_t prevTime;
+  int prevMinute;
 
   if (timeStatus() == timeSet) {      //check if time is synced with RTC
-    prevTime = now();
-    displayTime();
+    if (prevMinute != minute()) {       //only update display if minute changed
+      prevMinute = minute();
+      displayTime();
+    }
   }
 
   else {
@@ -83,8 +85,8 @@ void blinkInnerRing() {               //function to let the inner ring blink
   delay(500);
 }
 
-void displayTime(){                   
-  
+void displayTime(){
+
   //###############Green Ring###############
 
   for (int i = 0; i < 2; i++) {
@@ -114,7 +116,7 @@ void displayTime(){
     lc.setLed((hour()-12) / 6, hour() - 18, 7, true);
     lc.setLed((hour()-12) / 6, hour() - 19, 7, false);
     }
-  
+
 
   //###############Reset Hours when Controller changes###############
 
@@ -133,7 +135,7 @@ void displayTime(){
   int c = 0;
   int m = 0;
   int x = 0;
-  
+
   if (minute() < 30)
     c = 0;
 
@@ -190,4 +192,3 @@ void displayTime(){
     Serial.println(m);
   }
 }
-
