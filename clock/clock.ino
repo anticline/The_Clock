@@ -63,10 +63,6 @@ void loop () {
       prevMinute = minute();
       displayTime();
     }
-
-  if (timeStatus() == timeSet) {      //check if time is synced with RTC
-    displayTime();
-
   }
 
   else {
